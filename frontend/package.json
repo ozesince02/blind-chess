@@ -1,0 +1,21 @@
+{
+  "name": "blind-chess-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "next": "^14.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "socket.io-client": "^4.7.0"
+  },
+  "devDependencies": {
+    "@types/node": "24.5.1",
+    "@types/react": "19.1.13",
+    "typescript": "5.9.2"
+  }
+}
