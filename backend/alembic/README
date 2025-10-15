@@ -3,3 +3,7 @@ Alembic migrations directory for blind-chess backend.
 Use:
   alembic revision --autogenerate -m "init"
   alembic upgrade head
+
+Notes:
+- The Alembic env reads `DATABASE_URL` from the environment if present. Set it before running Alembic (or edit `alembic.ini`).
+
