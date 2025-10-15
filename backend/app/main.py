@@ -5,9 +5,17 @@ from starlette.middleware import Middleware
 from starlette.middleware.cors import CORSMiddleware
 from starlette.applications import Starlette
 from starlette.routing import Mount
+from sqlalchemy.ext.asyncio import AsyncEngine
+from .db import Base, engine
 
 
 fastapi_app = FastAPI(title="Blind Chess Backend")
+fastapi_app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 fastapi_app.include_router(games.router, prefix="/games", tags=["games"])
 
 
@@ -18,4 +26,12 @@ async def healthz():
 
 # Compose Starlette app that mounts the Socket.IO ASGI app at /ws
 app = Starlette(routes=[Mount('/', app=fastapi_app), Mount('/ws', app=socketio_app)])
+
+
+@fastapi_app.on_event("startup")
+async def startup_create_tables():
+    # Ensure tables exist for SQLite/dev usage
+    if isinstance(engine, AsyncEngine):
+        async with engine.begin() as conn:
+            await conn.run_sync(Base.metadata.create_all)
 
